@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="th">
+
+<head>
+
+<meta charset="UTF-8">
+<base target="_top">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin - CI Verification</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+body{
+  margin:0;
+  background:#eef2f7;
+  font-family:'IBM Plex Sans Thai',sans-serif;
+}
+
+/* HEADER */
+.topbar{
+  background:linear-gradient(135deg,#065BAA,#0847A3);
+  color:white;
+  padding:28px 24px;
+  text-align:center;
+}
+
+.topbar-main{
+  font-size:2rem;
+  font-weight:700;
+  line-height:1.2;
+}
+
+.topbar-sub{
+  opacity:.95;
+  margin-top:6px;
+  font-size:1rem;
+  font-weight:400;
+}
+
+/* ✅ FULL WIDTH */
+.container-main{
+  width:100% !important;
+  max-width:100% !important;
+  padding:20px 40px;
+}
+
+/* CARD */
+.form-card{
+  width:100% !important;
+  max-width:100% !important;
+  background:white;
+  padding:20px;
+  border-radius:12px;
+}
+
+/* 🔥 TABLE FIX */
+.table{
+  width:100% !important;
+  min-width:100%;
+  table-layout:auto !important;
+  border-collapse:collapse;
+}
+
+.table th,
+.table td{
+  text-align:center !important;
+  vertical-align:middle !important;
+
+  border:1px solid #e0e6ed;
+  padding:10px;
+}
+
+.table th{
+  background:linear-gradient(135deg,#eaf6ff,#f5fbff);
+  color:#065BAA;
+  text-align:center !important;
+  font-weight:700;
+}
+
+/* 🔥 อย่ามี scroll */
+.table-responsive{
+  overflow:visible !important;
+}
+
+#adminList{
+  width:100%;
+}
+
+/* FOOTER */
+footer{
+  background:#065BAA;
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+
+//ลำดับ//
+.table th:nth-child(1),
+.table td:nth-child(1){
+  width: 60px;
+  max-width: 60px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(1){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//ชื่อ//
+.table th:nth-child(2),
+.table td:nth-child(2){
+  width: 100px;
+  max-width: 100px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(2){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//นามสกุล//
+.table th:nth-child(3),
+.table td:nth-child(3){
+  width: 100px;
+  max-width: 100px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(3){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//วันที่ส่ง//
+.table th:nth-child(4),
+.table td:nth-child(4){
+  width: 80px;
+  max-width: 80px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(4){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//หน่วยงาน//
+.table th:nth-child(5),
+.table td:nth-child(5){
+  width: 70px;
+  max-width: 70px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(5){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//เบอร์//
+.table th:nth-child(6),
+.table td:nth-child(6){
+  width: 70px;
+  max-width: 70px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(6){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//email//
+.table th:nth-child(7),
+.table td:nth-child(7){
+  width: 150px;
+  max-width: 150px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(7){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//ประเภทสื่อ//
+.table th:nth-child(8),
+.table td:nth-child(8){
+  width: 200px;
+  max-width: 200px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(8){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//ชิ้นงาน//
+.table th:nth-child(9),
+.table td:nth-child(9){
+  width: 70px;
+  max-width: 70px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(9){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//รายละเอียด//
+.table th:nth-child(10),
+.table td:nth-child(10){
+  width: 200px;
+  max-width: 200px;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+table td:nth-child(10){
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* wrapper ให้เต็ม cell และ scroll ได้ */
+.detail-scroll-admin{
+  display: block;
+  width: 100%;
+  max-height: 62px;
+  overflow: auto;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.25;
+  text-align: left;
+  box-sizing: border-box;
+  padding-right: 4px;
+}
+
+/* scrollbar สีฟ้า */
+.detail-scroll-admin::-webkit-scrollbar{
+  width: 6px;
+}
+.detail-scroll-admin::-webkit-scrollbar-thumb{
+  background: #7fd3f6;
+  border-radius: 6px;
+}
+.detail-scroll-admin::-webkit-scrollbar-track{
+  background: #eaf7fd;
+  border-radius: 6px;
+}
+
+
+//รอบ//
+.table th:nth-child(11),
+.table td:nth-child(11){
+  width: 50px;
+  max-width: 50px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(11){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//สถานะ//
+.table th:nth-child(12),
+.table td:nth-child(12){
+  width: 100px;
+  max-width: 100px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(12){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//วันที่ให้ความเห็น//
+.table th:nth-child(13),
+.table td:nth-child(13){
+  width: 80px;
+  max-width: 80px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(13){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//ความคิดเห็น//
+.table th:nth-child(14),
+.table td:nth-child(14){
+  width: 100px;
+  max-width: 100px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(14){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//ผู้ให้ความเห็น//
+.table th:nth-child(15),
+.table td:nth-child(15){
+  width: 100px;
+  max-width: 100px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(15){
+  white-space: normal;
+  word-break: break-word;
+}
+
+//บันทึก//
+.table th:nth-child(16),
+.table td:nth-child(16){
+  width: 60px;
+  max-width: 60px;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td:nth-child(16){
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* wrapper ให้เต็ม cell จริง */
+.media-scroll-admin{
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  max-height: 62px;
+  overflow: auto;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.25;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.media-scroll-admin::-webkit-scrollbar{
+  width: 6px;
+}
+.media-scroll-admin::-webkit-scrollbar-thumb{
+  background: #7fd3f6;
+  border-radius: 6px;
+}
+.media-scroll-admin::-webkit-scrollbar-track{
+  background: #eaf7fd;
+  border-radius: 6px;
+}
+
+/* =========================
+   SEARCH BAR
+   ========================= */
+.search-bar-wrap{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:14px;
+}
+
+.search-input{
+  width:320px;
+  max-width:100%;
+  border:1px solid #cfe3ef;
+  border-radius:10px;
+  padding:10px 14px;
+  box-shadow:none;
+  outline:none;
+}
+
+.search-input:focus{
+  border-color:#00C2F3;
+  box-shadow:0 0 0 3px rgba(0,194,243,0.15);
+}
+
+.search-input::placeholder{
+  color:#8aa1b4;
+}
+
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+</head>
+
+<body>
+
+<div class="topbar">
+
+  <div class="topbar-main">
+    ⚙️ ระบบจัดการข้อมูล
+  </div>
+
+  <div class="topbar-sub">
+    Corporate Identity Standards Verification System : Admin Panel
+  </div>
+
+</div>
+
+<div class="container-main">
+ 
+<div class="form-card">
+
+  <h4 style="margin-bottom:20px;color:#065BAA;font-weight:700;">
+    รายการชิ้นงานทั้งหมด
+  </h4>
+
+  <div class="search-bar-wrap">
+    <input
+      type="text"
+      id="adminSearch"
+      class="search-input"
+      placeholder="🔍 ค้นหาชิ้นงาน"
+      oninput="handleAdminSearch(this.value)"
+    >
+  </div>
+
+  <div id="adminList">
+    ⏳ กำลังโหลด...
+  </div>
+
+</div>
+
+</div>
+
+<footer>
+  Copyright © 2026 ระบบตรวจเช็คความถูกต้องของเอกลักษณ์องค์กร ฝสอ. | โทร 1268
+</footer>
+
+<script>
+
+document.getElementById("adminList").innerHTML = "⏳ กำลังโหลดชิ้นงาน...";
+console.log("ADMIN START");
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "ci-verification.firebaseapp.com",
+  projectId: "ci-verification"
+};
+
+// กัน initialize ซ้ำ
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const db = firebase.firestore();
+
+let adminData = [];
+let adminPage = 0;
+let adminSearchTerm = "";
+const ADMIN_PER_PAGE = 10;
+
+window.handleAdminSearch = function(value){
+  adminSearchTerm = value.trim().toLowerCase();
+  adminPage = 0;
+  renderAdmin(0);
+};
+
+/* LOAD ADMIN DATA */
+async function renderAdmin(page = 0) {
+  try {
+    if (adminData.length === 0) {
+      const snapshot = await db
+        .collection("submissions")
+        .orderBy("createdAt", "desc")
+        .limit(50)
+        .get();
+
+      if (snapshot.empty) {
+        document.getElementById("adminList").innerHTML = "ไม่มีข้อมูล";
+        return;
+      }
+
+      adminData = snapshot.docs.map(docSnap => ({
+        id: docSnap.id,
+        ...docSnap.data()
+      }));
+    }
+
+    adminPage = page;
+
+    const filteredAdminData = adminData.filter(d => {
+      const createdDate = d.createdAt?.seconds
+        ? new Date(d.createdAt.seconds * 1000).toLocaleDateString("th-TH")
+        : "-";
+
+      const updatedDate = d.updatedAt?.seconds
+        ? new Date(d.updatedAt.seconds * 1000).toLocaleDateString("th-TH")
+        : "-";
+
+      const text = `
+        ${d.firstName || ""}
+        ${d.lastName || ""}
+        ${createdDate}
+        ${d.department || ""}
+        ${d.phone || ""}
+        ${d.email || ""}
+        ${d.mediaType || ""}
+        ${d.workUrl || ""}
+        ${d.description || ""}
+        ${d.round || ""}
+        ${d.status || ""}
+        ${updatedDate}
+        ${d.comment || ""}
+        ${d.by || ""}
+      `.toLowerCase();
+
+      return text.includes(adminSearchTerm);
+    });
+
+    if(filteredAdminData.length === 0){
+      document.getElementById("adminList").innerHTML = adminSearchTerm ? "ไม่พบข้อมูลที่ค้นหา" : "ไม่มีข้อมูล";
+      return;
+    }
+
+    const start = page * ADMIN_PER_PAGE;
+    const end = start + ADMIN_PER_PAGE;
+    const pageData = filteredAdminData.slice(start, end);
+
+    let html = `
+      <div>
+      <table class="table table-hover align-middle table-bordered">
+      <tr>
+        <th>ลำดับ</th>
+        <th>ชื่อ</th>
+        <th>นามสกุล</th>
+        <th>วันที่ส่ง</th>
+        <th>หน่วยงาน</th>
+        <th>เบอร์</th>
+        <th>Email</th>
+        <th>ประเภทสื่อ</th>
+        <th>ชิ้นงาน</th>
+        <th>รายละเอียด</th>
+        <th>รอบ</th>
+        <th>สถานะ</th>
+        <th>วันที่ให้ความเห็น</th>
+        <th>ความคิดเห็น</th>
+        <th>ผู้ให้ความเห็น</th>
+        <th>บันทึก</th>
+      </tr>
+    `;
+
+    let i = start + 1;
+
+    pageData.forEach(d => {
+      const id = d.id;
+
+      const createdDate = d.createdAt?.seconds
+        ? new Date(d.createdAt.seconds * 1000).toLocaleDateString("th-TH")
+        : "-";
+
+      const updatedDate = d.updatedAt?.seconds
+        ? new Date(d.updatedAt.seconds * 1000).toLocaleDateString("th-TH")
+        : "-";
+
+      html += `
+        <tr data-workurl="${(d.workUrl || "").replace(/"/g, "&quot;")}"
+            data-email="${(d.email || "").replace(/"/g, "&quot;")}"
+            data-name="${((d.firstName||"") + " " + (d.lastName||"")).replace(/"/g, "&quot;")}">
+          <td>${i++}</td>
+          <td>${d.firstName || ""}</td>
+          <td>${d.lastName || ""}</td>
+          <td>${createdDate}</td>
+          <td>${d.department || ""}</td>
+          <td>${d.phone || ""}</td>
+          <td>${d.email || ""}</td>
+          <td><div class="media-scroll-admin">${d.mediaType || ""}</div></td>
+          <td><a href="${d.workUrl || "#"}" target="_blank">ชิ้นงาน</a></td>
+          <td><div class="detail-scroll-admin">${d.description || ""}</div></td>
+          <td>${d.round || ""}</td>
+
+          <td>
+            <select id="status_${id}" class="form-select form-select-sm">
+              <option value="รอพิจารณา" ${d.status==="รอพิจารณา" ? "selected":""}>รอพิจารณา</option>
+              <option value="ปรับแก้" ${d.status==="ปรับแก้" ? "selected":""}>ปรับแก้</option>
+              <option value="ผ่าน" ${d.status==="ผ่าน" ? "selected":""}>ผ่าน</option>
+            </select>
+          </td>
+
+          <td>${updatedDate}</td>
+
+          <td>
+            <textarea id="comment_${id}" class="form-control" rows="3">${d.comment || ""}</textarea>
+          </td>
+
+          <td>
+            <input id="by_${id}" class="form-control" value="${d.by || ""}">
+          </td>
+
+          <td>
+            <button class="btn btn-success btn-sm" onclick="saveAdmin('${id}', this)">💾</button>
+          </td>
+        </tr>
+      `;
+    });
+
+    html += `</table>`;
+
+    html += `<div style="text-align:center;margin-top:15px;">`;
+    if(page > 0){
+      html += `<button class="btn btn-secondary btn-sm" onclick="renderAdmin(${page-1})">⬅️ ก่อนหน้า</button> `;
+    }
+    if(end < filteredAdminData.length){
+      html += `<button class="btn btn-primary btn-sm" onclick="renderAdmin(${page+1})">ถัดไป ➡️</button>`;
+    }
+    html += `</div></div>`;
+
+    document.getElementById("adminList").innerHTML = html;
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("adminList").innerHTML =
+      "<div style='color:red'>" + err.message + "</div>";
+  }
+}
+
+/* SAVE */
+window.saveAdmin = async function(id, btnEl) {
+  try {
+    const status = document.getElementById(`status_${id}`).value;
+    const comment = document.getElementById(`comment_${id}`).value;
+    const by = document.getElementById(`by_${id}`).value;
+
+    // ✅ ดึงข้อมูลจากแถว เพื่อ sync sheet/email
+    const tr = btnEl.closest("tr");
+    const workUrl = tr?.dataset?.workurl || "";
+    const email = tr?.dataset?.email || "";
+    const name = tr?.dataset?.name || "";
+
+    // 1) update firestore
+    await db.collection("submissions").doc(id).update({
+      status,
+      comment,
+      by,
+      updatedAt: new Date()
+    });
+
+    // 2) update google sheet (ใช้ workUrl เป็น key)
+    if (workUrl) {
+      google.script.run.updateStatusByLink(workUrl, status, comment, by);
+    }
+
+    // 3) send email
+    if (email) {
+      google.script.run.sendEmailUpdate(email, name, status, comment, workUrl);
+    }
+
+Swal.fire("สำเร็จ", "บันทึกข้อมูลแล้ว", "success");
+adminData = [];
+renderAdmin(adminPage);
+
+  } catch (err) {
+    Swal.fire("ERROR", err.message, "error");
+  }
+};
+
+/* EMAIL ACCESS */
+async function askEmailAccess(){
+  const { value: formValues } = await Swal.fire({
+    title: "เข้าสู่ระบบ Admin",
+    html: `
+      <input id="swal-admin-email" class="swal2-input" placeholder="Email">
+      <input id="swal-admin-password" type="password" class="swal2-input" placeholder="Password">
+    `,
+    focusConfirm: false,
+    confirmButtonText: "เข้าสู่ระบบ",
+    allowOutsideClick: false,
+    preConfirm: () => {
+      const email = document.getElementById("swal-admin-email").value.trim();
+      const password = document.getElementById("swal-admin-password").value;
+
+      if (!email || !password) {
+        Swal.showValidationMessage("กรุณากรอก Email และ Password ให้ครบ");
+        return false;
+      }
+
+      return { email, password };
+    }
+  });
+
+  if(!formValues) return askEmailAccess();
+
+  google.script.run
+    .withSuccessHandler(res => {
+      console.log("ACCESS", res);
+      if(res && res.access) renderAdmin();
+      else document.getElementById("adminList").innerHTML = "⛔ Email หรือ Password ไม่ถูกต้อง";
+    })
+    .withFailureHandler(err => {
+      console.error(err);
+      document.getElementById("adminList").innerHTML = "❌ " + err.message;
+    })
+    .checkEmailManual(formValues.email, formValues.password);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  askEmailAccess();
+});
+
+</script>
+
+</body>
+</html>
